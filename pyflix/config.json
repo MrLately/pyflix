@@ -1,10 +1,6 @@
 {
     "SCRAPE_URLS": [
-        "https://torrentio.strem.fun/providers=yts,eztv,rarbg,1337x,thepiratebay,kickasstorrents,torrentgalaxy,magnetdl,horriblesubs,nyaasi,tokyotosho,anidex%7Cqualityfilter=scr,cam,unknown%7Climit=10%7Cdebridoptions=nodownloadlinks",
-        "https://torrentio.elfhosted.com/qualityfilter=scr,cam,unknown%7Climit=10%7Cdebridoptions=nodownloadlinks",
-        "https://knightcrawler.elfhosted.com/qualityfilter=scr,cam,unknown%7Climit=10%7Cdebridoptions=nodownloadlinks",
-        "https://mediafusion.elfhosted.com/4Vg-t-bvIxkcV577Fzlr9wjotF9CkA9UWL8AMDAWBPfNNa8rItUxjeoTiTuWb_zg7ahbSHJIlhTkZAjQ69D9agASu7TsYJzjuT-wboEpNAQ3YynxA1H1i1lXpyHrOZLZyqgf_3dWmQRmiIqPVvY1RxeSXKTLRPrgbvQfNE58MN5uqy9xytozWg9EXY94nyAktH6HVtH7bTmX4fMuMxJBUTnNbQZIsZr_ifiJ70lixhH_WNL1hDAEP002qMcANebk",
-        "https://peerflix-235ac-default-rtdb.europe-west1.firebasedatabase.app"
+        "https://torrentio.strem.fun/providers=yts,eztv,rarbg,1337x,thepiratebay,kickasstorrents,torrentgalaxy,magnetdl,horriblesubs,nyaasi,tokyotosho,anidex%7Cqualityfilter=scr,cam,unknown%7Climit=10%7Cdebridoptions=nodownloadlinks"
     ],
     "QUALITY_ORDER": {
         "2160p": 1,
