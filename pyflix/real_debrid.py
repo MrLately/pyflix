@@ -7,10 +7,11 @@ import httpx
 def load_config():
     with open('config.json', 'r') as config_file:
         return json.load(config_file)
+    
+config = load_config()
+REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
 
 async def check_rd_cache(torrent_hash):
-    config = load_config()
-    REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
     api_url = f"https://api.real-debrid.com/rest/1.0/torrents/instantAvailability/{torrent_hash}"
     
@@ -20,29 +21,21 @@ async def check_rd_cache(torrent_hash):
         data = response.json()
         
         return torrent_hash in data and data[torrent_hash] and any(value for value in data[torrent_hash].values() if value)
-
-def check_my_downloads():
-    config = load_config()
-    REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
-    #headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
-    #response = requests.post("https://api.real-debrid.com/rest/1.0/downloads, headers=headers)
-    # check my downloads for the matching SXXEXX and return the download link
        
 def get_existing_torrent_id(torrent_hash):
-    config = load_config()
-    REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
+    
     response = requests.get("https://api.real-debrid.com/rest/1.0/torrents", headers=headers)
     response.raise_for_status()
+    
     torrents = response.json()
     for torrent in torrents:
         if torrent['hash'].lower() == torrent_hash.lower():
             return torrent['id']
+        
     return None
 
 def get_download_link_from_id(torrent_id):
-    config = load_config()
-    REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
     
     response = requests.get(f"https://api.real-debrid.com/rest/1.0/torrents/info/{torrent_id}", headers=headers)
@@ -55,21 +48,17 @@ def get_download_link_from_id(torrent_id):
     
     return None
 
-def generate_magnet_link(hash):
-    return f"magnet:?xt=urn:btih:{hash}"
-
 def add_magnet_to_realdebrid(hash):
-    config = load_config()
-    REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
-    magnet = generate_magnet_link(hash)
+    magnet = f"magnet:?xt=urn:btih:{hash}"
+    
     response = requests.post("https://api.real-debrid.com/rest/1.0/torrents/addMagnet", headers=headers, data={"magnet": magnet})
     response.raise_for_status()
+    
     return response.json()['id']
 
 def select_files_and_start_download(torrent_id):
     config = load_config()
-    REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
     CURRENT_SEASON = config['CURRENT_SEASON']
     CURRENT_EPISODE = config['CURRENT_EPISODE']
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
@@ -78,8 +67,11 @@ def select_files_and_start_download(torrent_id):
     response.raise_for_status()
     files_info = response.json()['files']
 
-    excluded_dirs = ["featurettes", "deleted scenes", "specials", "sample", "extras", "bonus", "interviews", "trailers", "ost"]
-
+    excluded_dirs = [
+        "featurettes", "deleted scenes", "specials", "sample", 
+        "extras", "bonus", "interviews", "trailers", "ost"
+    ]
+    
     video_files = [
         file for file in files_info 
         if file['path'].lower().endswith(('.mp4', '.mkv', '.avi', '.mov'))
@@ -106,12 +98,12 @@ def select_files_and_start_download(torrent_id):
         response.raise_for_status()
 
 def check_download_status(torrent_id):
-    config = load_config()
-    REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
+    
     while True:
         response = requests.get(f"https://api.real-debrid.com/rest/1.0/torrents/info/{torrent_id}", headers=headers)
         response.raise_for_status()
+        
         torrent_info = response.json()
         if torrent_info['status'] == 'downloaded':
             download_link = torrent_info['links'][0]
@@ -119,11 +111,11 @@ def check_download_status(torrent_id):
         time.sleep(1) 
 
 def unrestrict_link(download_link):
-    config = load_config()
-    REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
+    
     response = requests.post("https://api.real-debrid.com/rest/1.0/unrestrict/link", headers=headers, data={"link": download_link})
     response.raise_for_status()
+    
     return response.json()['download']
 
 def main(infoHash):
