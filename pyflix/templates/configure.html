@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configure</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <form action="/configure" method="post">
+            <label for="REAL_DEBRID_API_TOKEN">Real Debrid API Token: <a href="https://real-debrid.com/apitoken" target="_blank">Find it here</a></label>
+            <input type="password" id="REAL_DEBRID_API_TOKEN" name="REAL_DEBRID_API_TOKEN" value="{{ config.get('REAL_DEBRID_API_TOKEN', '') }}">
+            
+            <label for="LIMIT_PER_QUAL">Limit Per Quality:</label>
+            <input type="number" id="LIMIT_PER_QUAL" name="LIMIT_PER_QUAL" min="1" value="{{ config.get('LIMIT_PER_QUAL', 5) }}">
+
+            <div id="quality_order">
+                <label>Quality Order (Drag to reorder):</label>
+                {% for quality in config.get('QUALITY_ORDER', ['2160p', '1080p', '720p', '480p']) %}
+                {% if quality in ['2160p', '1080p', '720p', '480p'] %}
+                <div class="drag-item" draggable="true">{{ quality }}</div>
+                {% else %}
+                <div class="drag-item" draggable="false" style="opacity: 0.5;">{{ quality }}</div>
+                {% endif %}
+                <input type="hidden" name="quality_order[]" value="{{ quality }}">
+                {% endfor %}
+            </div>
+            <button type="submit">Install</button>
+        </form>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
+
