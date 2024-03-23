@@ -6,7 +6,7 @@ import httpx
 
 def load_config():
     with open('config.json', 'r') as config_file:
-        return json.load(config_file)
+        return json.load(config_file)  
     
 config = load_config()
 REAL_DEBRID_API_TOKEN = config['REAL_DEBRID_API_TOKEN']
@@ -22,9 +22,9 @@ async def check_rd_cache(torrent_hash):
         
         return torrent_hash in data and data[torrent_hash] and any(value for value in data[torrent_hash].values() if value)
        
+       
 def get_existing_torrent_id(torrent_hash):
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
-    
     response = requests.get("https://api.real-debrid.com/rest/1.0/torrents", headers=headers)
     response.raise_for_status()
     
@@ -35,9 +35,9 @@ def get_existing_torrent_id(torrent_hash):
         
     return None
 
+
 def get_download_link_from_id(torrent_id):
-    headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
-    
+    headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}  
     response = requests.get(f"https://api.real-debrid.com/rest/1.0/torrents/info/{torrent_id}", headers=headers)
     response.raise_for_status()
     
@@ -48,21 +48,21 @@ def get_download_link_from_id(torrent_id):
     
     return None
 
+
 def add_magnet_to_realdebrid(hash):
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
     magnet = f"magnet:?xt=urn:btih:{hash}"
-    
     response = requests.post("https://api.real-debrid.com/rest/1.0/torrents/addMagnet", headers=headers, data={"magnet": magnet})
     response.raise_for_status()
     
     return response.json()['id']
+
 
 def select_files_and_start_download(torrent_id):
     config = load_config()
     CURRENT_SEASON = config['CURRENT_SEASON']
     CURRENT_EPISODE = config['CURRENT_EPISODE']
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
-
     response = requests.get(f"https://api.real-debrid.com/rest/1.0/torrents/info/{torrent_id}", headers=headers)
     response.raise_for_status()
     files_info = response.json()['files']
@@ -79,6 +79,7 @@ def select_files_and_start_download(torrent_id):
     ]
 
     selected_file_id = None
+    # i may want to select all if series or season instead of one like im doing now
     if CURRENT_SEASON != "0" and CURRENT_EPISODE != "0":
         season_episode_str = f"S{CURRENT_SEASON}E{CURRENT_EPISODE}".lower()
         print(f"Attempting to match: {season_episode_str}")
@@ -93,9 +94,11 @@ def select_files_and_start_download(torrent_id):
         response = requests.post(f"https://api.real-debrid.com/rest/1.0/torrents/selectFiles/{torrent_id}", headers=headers, data={"files": str(selected_file_id)})
         response.raise_for_status()
     else:
+        # this works well for movies
         largest_file_id = sorted(video_files, key=lambda x: x['bytes'], reverse=True)[0]['id']
         response = requests.post(f"https://api.real-debrid.com/rest/1.0/torrents/selectFiles/{torrent_id}", headers=headers, data={"files": str(largest_file_id)})
         response.raise_for_status()
+
 
 def check_download_status(torrent_id):
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
@@ -112,11 +115,11 @@ def check_download_status(torrent_id):
 
 def unrestrict_link(download_link):
     headers = {"Authorization": f"Bearer {REAL_DEBRID_API_TOKEN}"}
-    
     response = requests.post("https://api.real-debrid.com/rest/1.0/unrestrict/link", headers=headers, data={"link": download_link})
     response.raise_for_status()
     
     return response.json()['download']
+
 
 def main(infoHash):
     config = load_config()
@@ -131,7 +134,7 @@ def main(infoHash):
         else:
             # for now its force re adding the torrent for series
             # i need to check the hash and then look for matching SXXEXX
-            # or i need to check rd /downloads with a new check_my_downloads function
+            # or i need to download all if complete series or season and only return unrestricted link for the matching one
             torrent_id = None
 
     if not download_link:
