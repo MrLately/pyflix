@@ -97,6 +97,7 @@ async def get_stream(type, id):
     
     return respond_with({"streams": streams})
 
+# convert_torrent sends the selected torrent through the real_debrid.py process
 @app.route("/convert/<infoHash>")
 def convert_torrent(infoHash):
     global conversion_locks, conversion_results
