@@ -1,0 +1,61 @@
+clicking movie thats already in my real debrid account:
+
+get_stream
+fetch_torrents
+checking for movie
+fetch_stream_data
+sorting
+check_and_append_cache_status
+127.0.0.1 - - [28/Mar/2024 15:59:00] "GET /stream/movie/tt15398776.json HTTP/1.1" 200 -
+convert_torrent called for bc49149f330485e036d69e68a0b0e0887e13965e
+Torrent ID already exists: DF5T4J4WTJXZC
+Unrestricted Direct Download Link: https://chi3.download.real-debrid.com/d/*****/Oppenheimer.2023.2160p.4K.BluRay.x265.10bit.AAC5.1-%5BYTS.MX%5D.mkv
+127.0.0.1 - - [28/Mar/2024 15:59:02] "HEAD /convert/bc49149f330485e036d69e68a0b0e0887e13965e HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:02] "GET /convert/bc49149f330485e036d69e68a0b0e0887e13965e HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:03] "GET /convert/bc49149f330485e036d69e68a0b0e0887e13965e HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:04] "GET /convert/bc49149f330485e036d69e68a0b0e0887e13965e HTTP/1.1" 302 -
+
+####################################################
+
+clicking movie thats NOT in my real debrid account:
+
+get_stream
+fetch_torrents
+checking for movie
+fetch_stream_data
+sorting
+check_and_append_cache_status
+127.0.0.1 - - [28/Mar/2024 15:59:26] "GET /stream/movie/tt3359350.json HTTP/1.1" 200 -
+convert_torrent called for 41fdd775a1abf62b707e349f9507a08762dd5828
+Torrent hash added successfully, torrent ID: XFPN74CNEU7HM
+File selected
+Download link obtained
+Unrestricted Direct Download Link: https://chi6.download.real-debrid.com/d/*****/Road.House.2024.2160p.4K.WEB.x265.10bit.AAC5.1-%5BYTS.MX%5D.mkv
+127.0.0.1 - - [28/Mar/2024 15:59:33] "HEAD /convert/41fdd775a1abf62b707e349f9507a08762dd5828 HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:33] "GET /convert/41fdd775a1abf62b707e349f9507a08762dd5828 HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:33] "GET /convert/41fdd775a1abf62b707e349f9507a08762dd5828 HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:34] "GET /convert/41fdd775a1abf62b707e349f9507a08762dd5828 HTTP/1.1" 302 -
+
+####################################################
+
+clicking show:
+
+get_stream
+fetch_torrents
+checking for series
+fetch_stream_data
+sorting
+check_and_append_cache_status
+127.0.0.1 - - [28/Mar/2024 15:59:47] "GET /stream/series/tt9018736:1:1.json HTTP/1.1" 200 -
+convert_torrent called for 31911731bba12801d22b4bd0c83946fe3129a35b
+Torrent hash added successfully, torrent ID: 4E4YCV6RS32UC
+Attempting to match: s01e01
+Checking: /S01/S01E01.mkv
+Match found: /S01/S01E01.mkv
+File selected
+Download link obtained
+Unrestricted Direct Download Link: https://chi4.download.real-debrid.com/d/*****/S01E01.mkv
+127.0.0.1 - - [28/Mar/2024 15:59:53] "HEAD /convert/31911731bba12801d22b4bd0c83946fe3129a35b HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:53] "GET /convert/31911731bba12801d22b4bd0c83946fe3129a35b HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:54] "GET /convert/31911731bba12801d22b4bd0c83946fe3129a35b HTTP/1.1" 302 -
+127.0.0.1 - - [28/Mar/2024 15:59:55] "GET /convert/31911731bba12801d22b4bd0c83946fe3129a35b HTTP/1.1" 302 -
