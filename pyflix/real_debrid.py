@@ -128,13 +128,11 @@ def main(infoHash):
     is_series_episode = config['CURRENT_SEASON'] != "0" and config['CURRENT_EPISODE'] != "0"
 
     if torrent_id:
-        if not is_series_episode:
+        if not is_series_episode: # is movie and already exists
             print(f"Torrent ID already exists: {torrent_id}")
             download_link = get_download_link_from_id(torrent_id)
         else:
             # for now its force re adding the torrent for series
-            # i need to check the hash and then look for matching SXXEXX
-            # or i need to download all if complete series or season and only return unrestricted link for the matching one
             torrent_id = None
 
     if not download_link:
